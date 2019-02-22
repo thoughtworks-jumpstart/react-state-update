@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Counter from "../Counter/Counter";
-import produce from "immer"
+import produce, {setAutoFreeze} from "immer"
 
 export class Counters extends Component {
   state = {
@@ -10,8 +10,12 @@ export class Counters extends Component {
     ]
   };
 
-  handleIncrement = (counterId) => {
+  constructor(props){
+    super(props);
+    setAutoFreeze(false);
+  }
 
+  handleIncrement = (counterId) => {
     //to be triggered by setState() to evaluate the value to set to this.state
     const updater = (state) => {
       //updating and copying the object
@@ -26,7 +30,9 @@ export class Counters extends Component {
   
   handleReset = () => {
     const copy = [...this.state.data]
+    // console.log(JSON.stringify(copy))
     const updated = copy.map( counter => {
+      console.log(counter)
       counter.value = 0;
       return counter;
     })
