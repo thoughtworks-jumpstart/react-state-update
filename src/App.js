@@ -1,10 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { Counter } from "./components/Counter/Counter";
 
-class App extends Component {
+export class App extends Component {
   render() {
     return (
-      <div>
-      </div>
+      <React.Fragment>
+        <h1>Counter Lab</h1>
+        <Counter />
+      </React.Fragment>
     );
   }
 }
