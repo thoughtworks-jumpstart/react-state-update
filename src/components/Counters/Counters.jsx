@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Counter from "../Counter/Counter";
+import {cloneDeep} from "lodash"
 
 export class Counters extends Component {
   state = {
@@ -9,14 +10,18 @@ export class Counters extends Component {
     ]
   };
 
-  settingState = (counterId, operator) => {
-    const copy = [...this.state.data]
-    copy.find(element => element.id === counterId).value += operator;
-    this.setState({ data: copy });
-  }
+  
   handleIncrement = (counterId) => {
-    //TODO: To check article on async update of counter
-    this.settingState(counterId, 1)
+    // const copy = [...this.state.data]
+    const copy = cloneDeep(this.state.data)
+    console.log("Before", JSON.stringify(this.state.data));
+
+    copy.find(element => element.id === counterId).value += 1;
+
+    console.log("After: state", JSON.stringify(this.state.data));
+    console.log("After: copy ", JSON.stringify(copy));
+
+    this.setState({ data: copy });
   };
   
   handleReset = () => {
