@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Counter from "../Counter/Counter";
-import {cloneDeep} from "lodash"
+import produce from "immer"
 
 export class Counters extends Component {
   state = {
@@ -10,18 +10,18 @@ export class Counters extends Component {
     ]
   };
 
-  
   handleIncrement = (counterId) => {
-    // const copy = [...this.state.data]
-    const copy = cloneDeep(this.state.data)
-    console.log("Before", JSON.stringify(this.state.data));
 
-    copy.find(element => element.id === counterId).value += 1;
+    //to be triggered by setState() to evaluate the value to set to this.state
+    const updater = (state) => {
+      //updating and copying the object
+      return produce(state, draft => {
+        draft.data.find(element => element.id === counterId).value += 1;
+      });
 
-    console.log("After: state", JSON.stringify(this.state.data));
-    console.log("After: copy ", JSON.stringify(copy));
-
-    this.setState({ data: copy });
+    };
+    
+    this.setState(updater);
   };
   
   handleReset = () => {
